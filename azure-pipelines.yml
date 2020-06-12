@@ -14,9 +14,13 @@ steps:
     SecretsFilter: 'sp-clientid-tf-910,sp-secret-tf-910,sp-tenantid-tf-910,sp-subscriptionid-tf-910,ak-backend-sa-910'
   displayName: 'Get key vault secrets as pipeline variables'
   
+- script: |
+    terraform version
+  displayName: 'Version of Terraform installed on this host'
+  
 # INSTALLING REQUIRED VERSION OF 
-- task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
-  displayName: 'Install Terraform 0.12.3'
+#- task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+#  displayName: 'Install Terraform 0.12.3'
   
 # AZ LOGIN USING TERRAFORM SERVICE PRINCIPAL
 - script: |
