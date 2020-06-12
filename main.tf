@@ -14,7 +14,7 @@ locals {
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "vault" {
-  name                  = local.vault_name 
+  name                  = replace(local.vault_name, "-", "")
   location              = local.location
   resource_group_name   = data.azurerm_resource_group.project-rg.id
   sku_name              = "standard"
