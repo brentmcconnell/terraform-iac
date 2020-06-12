@@ -1,7 +1,3 @@
-# output "app-rg" {
-#   value = azurerm_resource_group.app-rg
-# }
-
 output "tags" {
   value = local.tags
 }
