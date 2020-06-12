@@ -21,7 +21,7 @@ steps:
 # AZ LOGIN USING TERRAFORM SERVICE PRINCIPAL
 - script: |
     az login --service-principal -u $(sp-clientid-tf-910) -p $(sp-secret-tf-910) --tenant $(sp-tenant-tf-910)
-
+    echo $(sp-client-tf-910)
 # TERRAFORM INIT    
     echo '#######Terraform Init########'
     terraform init -backend-config="storage_account_name=$(tfBackendStorageAccountName)" -backend-config="container_name=$(tfBackendStorageContainerName)" -backend-config="access_key=$(ak-backend-sa-910)" -backend-config="key=$(tfBackendFileName)"
