@@ -11,29 +11,23 @@ steps:
   inputs:
     azureSubscription: 'devops-sp'
     KeyVaultName: 'mykeyzvault'
-    SecretsFilter: 'sp-clientid-tf-824,sp-secret-tf-824,sp-tenantid-tf-824,sp-subscriptionid-tf-824,ak-backend-sa-824'
+    SecretsFilter: 'sp-clientid-tf-929,sp-secret-tf-929,sp-tenantid-tf-929,sp-subscriptionid-tf-929,ak-backend-sa-929'
   displayName: 'Get key vault secrets as pipeline variables'
-  
+
+# TERRAFORM VERSION
 - script: |
     terraform version
-  displayName: 'Version of Terraform installed on this host'
-  
+
 # AZ LOGIN USING TERRAFORM SERVICE PRINCIPAL
 - script: |
-<<<<<<< HEAD
-    az login --service-principal -u $(sp-clientid-tf-824) -p $(sp-secret-tf-824) --tenant $(sp-tenant-tf-824)
+    az login --service-principal -u $(sp-clientid-tf-929) -p $(sp-secret-tf-929) --tenant $(sp-tenant-tf-929)
     # TERRAFORM INIT    
     echo '#######Terraform Init########'
-    terraform init -backend-config="storage_account_name=$(tfBackendStorageAccountName)" -backend-config="container_name=$(tfBackendStorageContainerName)" -backend-config="access_key=$(ak-backend-sa-824)" -backend-config="key=$(tfBackendFileName)"
+    terraform init -backend-config="storage_account_name=$(tfBackendStorageAccountName)" -backend-config="container_name=$(tfBackendStorageContainerName)" -backend-config="access_key=$(ak-backend-sa-929)" -backend-config="key=$(tfBackendFileName)"
     # TERRAFORM PLAN    
     echo '#######Terraform Plan########'
-    terraform plan -var="client-id=$(sp-clientid-tf-824)" -var="client-secret=$(sp-secret-tf-824)" -var="tenant-id=$(sp-tenant-tf-824)" -var="subscription-id=$(sp-subscriptionid-tf-824)" -out="out.plan"
-    echo $(sp-secret-tf-910)
-    echo $(sp-tenantid-tf-910)
-    echo $(sp-subscriptionid-tf-910)
-    echo $(ak-backend-sa-910) 
-    echo '#######Terraform Init########'
-    terraform init -backend-config="storage_account_name=$(tfBackendStorageAccountName)" -backend-config="container_name=$(tfBackendStorageContainerName)" -backend-config="access_key=$(ak-backend-sa-910)" -backend-config="key=$(tfBackendFileName)" 
+    terraform plan -var="client-id=$(sp-clientid-tf-929)" -var="client-secret=$(sp-secret-tf-929)" -var="tenant-id=$(sp-tenant-tf-929)" -var="subscription-id=$(sp-subscriptionid-tf-929)" -out="out.plan"
+    # TERRAFORM APPLY    
     echo '#######Terraform Apply########'
     terraform apply out.plan
   displayName: 'Terraform Init, Plan and Apply '
