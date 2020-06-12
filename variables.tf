@@ -9,3 +9,23 @@ variable "location" {
   default                   = "eastus"
   description               = "The Azure Region used"
 }
+
+variable "client-id" {
+  type                      = string
+  description               = "SP client id"
+}
+
+variable "client-secret" {
+  type                      = string
+  description               = "SP client secret"
+}
+
+variable "subscription-id" {
+  type                      = string
+  description               = "SP subscription id"
+}
+
+variable "tenant-id" {
+  type                      = string
+  description               = "SP tenant id"
+}

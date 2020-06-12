@@ -11,7 +11,7 @@ steps:
   inputs:
     azureSubscription: 'devops-sp'
     KeyVaultName: 'mykeyzvault'
-    SecretsFilter: 'sp-clientid-tf-910,sp-secret-tf-910,sp-tenantid-tf-910,sp-subscriptionid-tf-910,ak-backend-sa-910'
+    SecretsFilter: 'sp-clientid-tf-656,sp-secret-tf-656,sp-tenantid-tf-656,sp-subscriptionid-tf-656,ak-backend-sa-656'
   displayName: 'Get key vault secrets as pipeline variables'
 
 # INSTALLING REQUIRED VERSION OF 
@@ -20,15 +20,15 @@ steps:
 
 # AZ LOGIN USING TERRAFORM SERVICE PRINCIPAL
 - script: |
-    az login --service-principal -u $(sp-clientid-tf-910) -p $(sp-secret-tf-910) --tenant $(sp-tenant-tf-910)
+    az login --service-principal -u $(sp-clientid-tf-656) -p $(sp-secret-tf-656) --tenant $(sp-tenant-tf-656)
 
 # TERRAFORM INIT    
     echo '#######Terraform Init########'
-    terraform init -backend-config="storage_account_name=$(tfBackendStorageAccountName)" -backend-config="container_name=$(tfBackendStorageContainerName)" -backend-config="access_key=$(ak-backend-sa-910)" -backend-config="key=$(tfBackendFileName)"
+    terraform init -backend-config="storage_account_name=$(tfBackendStorageAccountName)" -backend-config="container_name=$(tfBackendStorageContainerName)" -backend-config="access_key=$(ak-backend-sa-656)" -backend-config="key=$(tfBackendFileName)"
 
 # TERRAFORM PLAN    
     echo '#######Terraform Plan########'
-    terraform plan -var="client_id=$(sp-clientid-tf-910)" -var="client_secret=$(sp-secret-tf-910)" -var="tenant_id=$(sp-tenant-tf-910)" -var="subscription_id=$(sp-subscriptionid-tf-910)" -out="out.plan"
+    terraform plan -var="client-id=$(sp-clientid-tf-656)" -var="client-secret=$(sp-secret-tf-656)" -var="tenant-id=$(sp-tenant-tf-656)" -var="subscription-id=$(sp-subscriptionid-tf-656)" -out="out.plan"
 
 # TERRAFORM APPLY    
     echo '#######Terraform Apply########'

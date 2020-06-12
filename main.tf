@@ -1,7 +1,7 @@
 locals {
   # All variables used in this file should be 
   # added as locals here 
-  prefix                = "${var.prefix}-910"
+  prefix                = "${var.prefix}-656"
   location              = var.location
   vault_name            = "${local.prefix}-vault"
   
@@ -12,11 +12,6 @@ locals {
 }
 
 data "azurerm_client_config" "current" {}
-
-provider "azurerm" {
-  version = ">=2.0.0"
-  features {} 
-}
 
 resource "azurerm_key_vault" "vault" {
   name                  = local.vault_name 
