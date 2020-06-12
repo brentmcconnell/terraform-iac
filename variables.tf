@@ -10,22 +10,22 @@ variable "location" {
   description               = "The Azure Region used"
 }
 
-variable "client-id" {
+variable "clientId" {
   type                      = string
   description               = "SP client id"
 }
 
-variable "client-secret" {
+variable "clientSecret" {
   type                      = string
   description               = "SP client secret"
 }
 
-variable "subscription-id" {
+variable "subscriptionId" {
   type                      = string
   description               = "SP subscription id"
 }
 
-variable "tenant-id" {
+variable "tenantId" {
   type                      = string
   description               = "SP tenant id"
 }
