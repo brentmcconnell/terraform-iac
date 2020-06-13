@@ -3,7 +3,7 @@ locals {
   # added as locals here 
   prefix                = "${var.prefix}-076"
   location              = var.location
-  vault_name            = replace("${local.prefix}-vault", "-", '')
+  vault_name            = replace("${local.prefix}-vault", "-", "")
   project_rg            = data.azurerm_resource_group.project-rg.id 
   # Common tags should go here
   tags           = {
