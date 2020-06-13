@@ -1,10 +1,10 @@
 locals {
   # All variables used in this file should be 
   # added as locals here 
-  prefix                = "${var.prefix}-076"
+  prefix                = "${var.prefix}-158"
   location              = var.location
-  vault_name            = replace("${local.prefix}-vault", "-", "")
-  project_rg            = data.azurerm_resource_group.project-rg.id 
+  vault_name            = "${local.prefix}-vault"
+  
   # Common tags should go here
   tags           = {
     created_by = "Terraform"
@@ -14,9 +14,9 @@ locals {
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "vault" {
-  name                  = local.vault_name 
+  name                  = replace(local.vault_name, "-", "")
   location              = local.location
-  resource_group_name   = local.project_rg 
+  resource_group_name   = data.azurerm_resource_group.project-rg.name
   sku_name              = "standard"
   tenant_id             = data.azurerm_client_config.current.tenant_id
   tags                  = local.tags
