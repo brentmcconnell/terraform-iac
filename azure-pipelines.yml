@@ -1,5 +1,5 @@
 variables:
-  TF_STORAGE_ACCT_NAME: tfstateacct2280
+  TF_STORAGE_ACCT_NAME: tfstateacct0442
   TF_STORAGE_CONT_NAME: proj-java 
   TF_STATE_FILE: terraform.tfstate 
 pool:
@@ -11,9 +11,8 @@ steps:
   inputs:
     azureSubscription: 'devops-sp'
     KeyVaultName: 'mykeyzvault'
-    SecretsFilter: 'sp-client-id-tf-2280,sp-cert-tf-2280,sp-tenant-id-tf-2280,sp-subscription-id-tf-2280,ak-backend-sa-2280'
+    SecretsFilter: 'sp-client-id-tf-0442,sp-cert-tf-0442,sp-tenant-id-tf-0442,sp-subscription-id-tf-0442,ak-backend-sa-0442'
   displayName: 'Get key vault secrets as pipeline variables'
-
 
 # TERRAFORM VERSION
 - script: |
@@ -21,41 +20,25 @@ steps:
   displayName: 'Get Terraform Version'
 
 - script: |
-    echo "$(TF_STORAGE_ACCT_NAME)" > storage_acct_name.txt
-    cat storage_acct_name.txt
-    echo "$(sp-cert-tf-2280)" > service-principal.pfx.b64
+    echo "$(sp-cert-tf-0442" > service-principal.pfx.b64
     base64 --decode service-principal.pfx.b64 > service-principal.pfx
-    sha1sum service-principal.pfx
     openssl pkcs12 -in service-principal.pfx -out service-principal.pem -nodes -passin pass:
     cat service-principal.pem
     ls -la
   displayName: 'What is in the cert variable?'
 
-# Copy using Azure CLI on Ubuntu
-- task: AzureCLI@1
-  displayName: Copy data to storage acct
-  inputs:
-    azureSubscription: sub-admin
-    scriptLocation: inlineScript
-    inlineScript: |
-      echo "Running az script to copy data to storage acct."
-      az storage blob upload-batch \
-        --destination files \
-        --account-name "brentdebug" \
-        --source "./"
-
 # AZ LOGIN USING TERRAFORM SERVICE PRINCIPAL
 - script: |
-    az login --service-principal -u "$(sp-client-id-tf-2280)" -p "service-principal.pem" --tenant "$(sp-tenant-id-tf-2280)"
+    az login --service-principal -u "$(sp-client-id-tf-0442)" -p "service-principal.pem" --tenant "$(sp-tenant-id-tf-0442)"
   displayName: 'Login the az cli'
 
 - script: |
     # TERRAFORM INIT    
     echo '#######Terraform Init########'
-    terraform init -backend-config="storage_account_name=$(TF_STORAGE_ACCT_NAME)" -backend-config="container_name=$(TF_STORAGE_CONT_NAME)" -backend-config="access_key=$(ak-backend-sa-2280)" -backend-config="key=$(TF_STATE_FILE)"
+    terraform init -backend-config="storage_account_name=$(TF_STORAGE_ACCT_NAME)" -backend-config="container_name=$(TF_STORAGE_CONT_NAME)" -backend-config="access_key=$(ak-backend-sa-0442)" -backend-config="key=$(TF_STATE_FILE)"
     # TERRAFORM PLAN    
     echo '#######Terraform Plan########'
-    terraform plan -var="clientId=$(sp-client-id-tf-2280)" -var="tenantId=$(sp-tenant-id-tf-2280)" -var="subscriptionId=$(sp-subscription-id-tf-2280)" -out="out.plan"
+    terraform plan -var="clientId=$(sp-client-id-tf-0442)" -var="tenantId=$(sp-tenant-id-tf-0442)" -var="subscriptionId=$(sp-subscription-id-tf-0442)" -out="out.plan"
     # TERRAFORM APPLY    
     echo '#######Terraform Apply########'
     terraform apply out.plan
