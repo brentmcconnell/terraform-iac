@@ -22,7 +22,9 @@ steps:
 - script: |
     echo "$(sp-cert-tf-9805)"
     echo "$(sp-cert-tf-9805)" > service-principal.pfx
-    cat service-principal.pfx
+    file service-principal.pfx
+    ls -la service-principal.pfx
+    sha1sum service-principal.pfx
   displayName: 'What is in the cert variable?'
 
 # AZ LOGIN USING TERRAFORM SERVICE PRINCIPAL
