@@ -20,7 +20,7 @@ steps:
   displayName: 'Get Terraform Version'
 
 - script: |
-    echo "$(sp-cert-tf-0442" > service-principal.pfx.b64
+    echo "$(sp-cert-tf-0442)" > service-principal.pfx.b64
     base64 --decode service-principal.pfx.b64 > service-principal.pfx
     openssl pkcs12 -in service-principal.pfx -out service-principal.pem -nodes -passin pass:
     cat service-principal.pem
