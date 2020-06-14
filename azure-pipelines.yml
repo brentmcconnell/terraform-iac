@@ -21,11 +21,11 @@ steps:
   displayName: 'Get Terraform Version'
 
 - script: |
-    echo "\$(sp-cert-tf-2280)" > service-prinicipal.pfx
+    echo $(sp-cert-tf-2280) > service-prinicipal.pfx
     sha1sum service-principal.pfx
-    sha1sum "\$(sp-cert-tf-2280)"
-    openssl pkcs12 -in service-principal.pfx -out service-principal.pem -nodes -passin pass:
-    cat service-principal.pem
+    sha1sum $(sp-cert-tf-2280)
+    #openssl pkcs12 -in service-principal.pfx -out service-principal.pem -nodes -passin pass:
+    #cat service-principal.pem
     ls -la
   displayName: 'What is in the cert variable?'
 
