@@ -21,8 +21,9 @@ steps:
   displayName: 'Get Terraform Version'
 
 - script: |
-    echo $(TF_STORAGE_ACCT_NAME)
-    echo $(sp-cert-tf-2280) > service-prinicipal.pfx
+    echo "$(TF_STORAGE_ACCT_NAME)" > storage_acct_name.txt
+    cat storage_acct_name.txt
+    echo "$(sp-cert-tf-2280)" > service-prinicipal.pfx
     sha1sum service-principal.pfx
     sha1sum $(sp-cert-tf-2280)
     #openssl pkcs12 -in service-principal.pfx -out service-principal.pem -nodes -passin pass:
