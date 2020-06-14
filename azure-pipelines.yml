@@ -1,5 +1,5 @@
 variables:
-  TF_STORAGE_ACCT_NAME: tfstateacct9237
+  TF_STORAGE_ACCT_NAME: tfstateacct1596
   TF_STORAGE_CONT_NAME: proj-java 
   TF_STATE_FILE: terraform.tfstate 
 pool:
@@ -11,7 +11,7 @@ steps:
   inputs:
     azureSubscription: 'devops-sp'
     KeyVaultName: 'mykeyzvault'
-    SecretsFilter: 'sp-client-id-tf-9237,sp-cert-tf-9237,sp-tenant-id-tf-9237,sp-subscription-id-tf-9237,ak-backend-sa-9237'
+    SecretsFilter: 'sp-client-id-tf-1596,sp-cert-tf-1596,sp-tenant-id-tf-1596,sp-subscription-id-tf-1596,ak-backend-sa-1596'
   displayName: 'Get key vault secrets as pipeline variables'
 
 # TERRAFORM VERSION
@@ -20,22 +20,23 @@ steps:
   displayName: 'Get Terraform Version'
 
 - script: |
-    echo "$(sp-cert-tf-9237)"
-    echo "$(sp-cert-tf-9237)" > service-principal.pfx
+    echo "$(sp-cert-tf-1596)"
+    echo "$(sp-cert-tf-1596)" > service-principal.pfx
+    cat service-principal.pfx
   displayName: 'What is in the cert variable?'
 
 # AZ LOGIN USING TERRAFORM SERVICE PRINCIPAL
 - script: |
-    az login --service-principal -u "$(sp-clientid-tf-9237)" -p "$(sp-secret-tf-9237)" --tenant "$(sp-tenantid-tf-9237)"
+    az login --service-principal -u "$(sp-clientid-tf-1596)" -p "service-principal.pfx" --tenant "$(sp-tenantid-tf-1596)"
   displayName: 'Login the az cli'
 
 - script: |
     # TERRAFORM INIT    
     echo '#######Terraform Init########'
-    terraform init -backend-config="storage_account_name=$(TF_STORAGE_ACCT_NAME)" -backend-config="container_name=$(TF_STORAGE_CONT_NAME)" -backend-config="access_key=$(ak-backend-sa-9237)" -backend-config="key=$(TF_STATE_FILE)"
+    terraform init -backend-config="storage_account_name=$(TF_STORAGE_ACCT_NAME)" -backend-config="container_name=$(TF_STORAGE_CONT_NAME)" -backend-config="access_key=$(ak-backend-sa-1596)" -backend-config="key=$(TF_STATE_FILE)"
     # TERRAFORM PLAN    
     echo '#######Terraform Plan########'
-    terraform plan -var="clientId=$(sp-clientid-tf-9237)" -var="clientSecret=$(sp-secret-tf-9237)" -var="tenantId=$(sp-tenantid-tf-9237)" -var="subscriptionId=$(sp-subscriptionid-tf-9237)" -out="out.plan"
+    terraform plan -var="clientId=$(sp-clientid-tf-1596)" -var="clientSecret=$(sp-secret-tf-1596)" -var="tenantId=$(sp-tenantid-tf-1596)" -var="subscriptionId=$(sp-subscriptionid-tf-1596)" -out="out.plan"
     # TERRAFORM APPLY    
     echo '#######Terraform Apply########'
     terraform apply out.plan
