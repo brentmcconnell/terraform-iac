@@ -14,13 +14,6 @@ steps:
     SecretsFilter: 'sp-client-id-tf-2280,sp-cert-tf-2280,sp-tenant-id-tf-2280,sp-subscription-id-tf-2280,ak-backend-sa-2280'
   displayName: 'Get key vault secrets as pipeline variables'
 
-- task: AzureCLI@1
-  displayName: Download certificate
-  inputs:
-    azureSubscription: 'devops-sp'
-    scriptLocation: inlineScript
-    inlineScript: |
-      az keyvault secret download --file service-principal.pfx --vault-name 'mykeyzvault' --name sp-cert-tf-2280
 
 # TERRAFORM VERSION
 - script: |
@@ -28,6 +21,9 @@ steps:
   displayName: 'Get Terraform Version'
 
 - script: |
+    echo "\$(sp-cert-tf-2280)" > service-prinicipal.pfx
+    sha1sum service-principal.pfx
+    sha1sum "\$(sp-cert-tf-2280)"
     openssl pkcs12 -in service-principal.pfx -out service-principal.pem -nodes -passin pass:
     cat service-principal.pem
     ls -la
