@@ -46,7 +46,7 @@ steps:
 
 # AZ LOGIN USING TERRAFORM SERVICE PRINCIPAL
 - script: |
-    az login --service-principal -u "$(sp-client-id-tf-2280)" -p "service-principal.pfx" --tenant "$(sp-tenant-id-tf-2280)"
+    az login --service-principal -u "$(sp-client-id-tf-2280)" -p "service-principal.pem" --tenant "$(sp-tenant-id-tf-2280)"
   displayName: 'Login the az cli'
 
 - script: |
