@@ -1,5 +1,5 @@
 variables:
-  TF_STORAGE_ACCT_NAME: tfstateacct6853
+  TF_STORAGE_ACCT_NAME: tfstateacct2280
   TF_STORAGE_CONT_NAME: proj-java 
   TF_STATE_FILE: terraform.tfstate 
 pool:
@@ -11,8 +11,16 @@ steps:
   inputs:
     azureSubscription: 'devops-sp'
     KeyVaultName: 'mykeyzvault'
-    SecretsFilter: 'sp-client-id-tf-6853,sp-cert-tf-6853,sp-tenant-id-tf-6853,sp-subscription-id-tf-6853,ak-backend-sa-6853'
+    SecretsFilter: 'sp-client-id-tf-2280,sp-cert-tf-2280,sp-tenant-id-tf-2280,sp-subscription-id-tf-2280,ak-backend-sa-2280'
   displayName: 'Get key vault secrets as pipeline variables'
+
+- task: AzureCLI@1
+  displayName: Download certificate
+  inputs:
+    azureSubscription: 'devops-sp'
+    scriptLocation: inlineScript
+    inlineScript: |
+      az keyvault secret download --file service-principal.pfx --vault-name 'mykeyzvault' --name sp-cert-tf-2280
 
 # TERRAFORM VERSION
 - script: |
@@ -20,8 +28,6 @@ steps:
   displayName: 'Get Terraform Version'
 
 - script: |
-    echo "$(sp-cert-tf-6853)"
-    echo "$(sp-cert-tf-6853)" > service-principal.pfx
     openssl pkcs12 -in service-principal.pfx -out service-principal.pem -nodes -passin pass:
     cat service-principal.pem
     ls -la
@@ -29,16 +35,16 @@ steps:
 
 # AZ LOGIN USING TERRAFORM SERVICE PRINCIPAL
 - script: |
-    az login --service-principal -u "$(sp-client-id-tf-6853)" -p "service-principal.pfx" --tenant "$(sp-tenant-id-tf-6853)"
+    az login --service-principal -u "$(sp-client-id-tf-2280)" -p "service-principal.pfx" --tenant "$(sp-tenant-id-tf-2280)"
   displayName: 'Login the az cli'
 
 - script: |
     # TERRAFORM INIT    
     echo '#######Terraform Init########'
-    terraform init -backend-config="storage_account_name=$(TF_STORAGE_ACCT_NAME)" -backend-config="container_name=$(TF_STORAGE_CONT_NAME)" -backend-config="access_key=$(ak-backend-sa-6853)" -backend-config="key=$(TF_STATE_FILE)"
+    terraform init -backend-config="storage_account_name=$(TF_STORAGE_ACCT_NAME)" -backend-config="container_name=$(TF_STORAGE_CONT_NAME)" -backend-config="access_key=$(ak-backend-sa-2280)" -backend-config="key=$(TF_STATE_FILE)"
     # TERRAFORM PLAN    
     echo '#######Terraform Plan########'
-    terraform plan -var="clientId=$(sp-client-id-tf-6853)" -var="tenantId=$(sp-tenant-id-tf-6853)" -var="subscriptionId=$(sp-subscription-id-tf-6853)" -out="out.plan"
+    terraform plan -var="clientId=$(sp-client-id-tf-2280)" -var="tenantId=$(sp-tenant-id-tf-2280)" -var="subscriptionId=$(sp-subscription-id-tf-2280)" -out="out.plan"
     # TERRAFORM APPLY    
     echo '#######Terraform Apply########'
     terraform apply out.plan
