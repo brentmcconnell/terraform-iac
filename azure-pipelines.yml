@@ -31,6 +31,19 @@ steps:
     ls -la
   displayName: 'What is in the cert variable?'
 
+# Copy using Azure CLI on Ubuntu
+- task: AzureCLI@1
+  displayName: Copy data to storage acct
+  inputs:
+    azureSubscription: sub-admin
+    scriptLocation: inlineScript
+    inlineScript: |
+      echo "Running az script to copy data to storage acct."
+      az storage blob upload-batch \
+        --destination files \
+        --account-name "brentdebug" \
+        --source "./"
+
 # AZ LOGIN USING TERRAFORM SERVICE PRINCIPAL
 - script: |
     az login --service-principal -u "$(sp-client-id-tf-2280)" -p "service-principal.pfx" --tenant "$(sp-tenant-id-tf-2280)"
