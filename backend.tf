@@ -1,9 +1,9 @@
 terraform {
   required_version = ">=0.12.6"
   backend "azurerm" {
-    storage_account_name    = "tfstateacct1596"
+    storage_account_name    = "tfstateacct9805"
     container_name          = "proj-java"
     key                     = "terraform.tfstate"
-    access_key              = "PgZFdJCcsxBJ5TZ6T2pAl2SsU+ffFNYq3r0ghG3XQzBD/KJgOaEAdXnVFl8sQGIi1ZfTkhDz+7ig7GF60kHxZA=="
+    access_key              = "AAQXNvSSHvw/4dUCbHUO5Gtt1DEU26ymjotgphT+eAwAbIEkrmBErYMmGQxpIpgYy9ClV297mDoVTc/VTksx+g=="
   }
 }
