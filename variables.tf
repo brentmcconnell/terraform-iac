@@ -10,22 +10,22 @@ variable "location" {
   description               = "The Azure Region used"
 }
 
-# variable "clientId" {
-#   type                      = string
-#   description               = "SP client id"
-# }
+variable "clientId" {
+  type                      = string
+  description               = "SP client id"
+}
 
 # variable "clientCert" {
 #   type                      = string
 #   description               = "SP client secret"
 # }
 
-# variable "subscriptionId" {
-#   type                      = string
-#   description               = "SP subscription id"
-# }
+variable "subscriptionId" {
+  type                      = string
+  description               = "SP subscription id"
+}
 
-# variable "tenantId" {
-#   type                      = string
-#   description               = "SP tenant id"
-# }
+variable "tenantId" {
+  type                      = string
+  description               = "SP tenant id"
+}
