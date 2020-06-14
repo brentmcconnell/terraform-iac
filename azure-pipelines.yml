@@ -22,7 +22,7 @@ steps:
 - script: |
     echo "$(sp-cert-tf-9805)"
     echo "$(sp-cert-tf-9805)" > service-principal.pfx
-    openssl pkcs12 -in service-prinicpal.pfx -out service-principal.pem
+    openssl pkcs12 -in service-principal.pfx -out service-principal.pem
     file service-principal.pfx
     file service-principal.pem
     ls -la
