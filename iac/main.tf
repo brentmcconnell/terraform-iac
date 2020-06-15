@@ -1,7 +1,7 @@
 locals {
   # All variables used in this file should be 
   # added as locals here 
-  prefix                = "${var.prefix}-7117"
+  prefix                = "${var.prefix}-0733"
   location              = var.location
   vault_name            = "${local.prefix}-vault"
   
