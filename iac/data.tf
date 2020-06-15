@@ -1,3 +1,3 @@
 data "azurerm_resource_group" "project-rg" {
-    name = "PROJECT-1052-RG"
+    name = "PROJECT-2758-RG"
 }
