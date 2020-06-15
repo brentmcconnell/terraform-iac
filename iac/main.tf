@@ -83,3 +83,4 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
     storage_account_type = "Standard_LRS"
     caching              = "ReadWrite"
   }
+}
