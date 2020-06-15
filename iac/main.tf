@@ -12,6 +12,11 @@ locals {
 
 data "azurerm_client_config" "current" {}
 
+resource "azurerm_resource_group" "main" {
+  name          = "${local.prefix}-resources"
+  location      = data.azurerm_resource_group.project-rg.location 
+}
+
 resource "azurerm_virtual_network" "vnet" {
   name                = "${local.prefix}-network"
   location            = data.azurerm_resource_group.project-rg.location 
