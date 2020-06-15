@@ -56,7 +56,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   resource_group_name             = data.azurerm_resource_group.project-rg.name
   location                        = data.azurerm_resource_group.project-rg.location
   sku                             = "Standard_F2"
-  instances                       = 3
+  instances                       = 2
   admin_username                  = "adminuser"
   admin_password                  = "P@ssw0rd1234!"
   disable_password_authentication = false
