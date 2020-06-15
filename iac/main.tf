@@ -37,50 +37,64 @@ resource "azurerm_key_vault" "vault" {
 
 }
 
-resource "azurerm_virtual_network" "main" {
+resource "azurerm_virtual_network" "vnet" {
   name                = "${local.prefix}-network"
-  address_space       = ["10.0.0.0/16"]
-  location            = data.azurerm_resource_group.project-rg.location
+  location            = data.azurerm_resource_group.project-rg.location 
   resource_group_name = data.azurerm_resource_group.project-rg.name
+  address_space       = ["10.1.0.0/16"]
 }
 
 resource "azurerm_subnet" "internal" {
   name                 = "internal"
-  resource_group_name   = data.azurerm_resource_group.project-rg.name
-  virtual_network_name = "${azurerm_virtual_network.main.name}"
-  address_prefix       = "10.0.2.0/24"
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  resource_group_name  = data.azurerm_resource_group.project-rg.name
+  address_prefixes     = ["10.1.0.0/22"]
 }
 
-resource "azurerm_linux_virtual_machine_scale_set" "main" {
-  name                            = "${local.prefix}-vmss"
-  resource_group_name             = data.azurerm_resource_group.project-rg.name
-  location                        = data.azurerm_resource_group.project-rg.location
-  sku                             = "Standard_F2"
-  instances                       = 2
-  admin_username                  = "adminuser"
-  admin_password                  = "P@ssw0rd1234!"
-  disable_password_authentication = false
+resource "azurerm_kubernetes_cluster" "kubernetes" {
+  name                = "${local.prefix}-k8s"
+  dns_prefix          = "${local.prefix}-k8s"
+  location            = data.azurerm_resource_group.project-rg.location 
+  resource_group_name = data.azurerm_resource_group.project-rg.name
 
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "16.04-LTS"
-    version   = "latest"
+  default_node_pool {
+    name           = "system"
+    node_count     = 1
+    vm_size        = "Standard_DS2_v2"
+    vnet_subnet_id = azurerm_subnet.internal.id
   }
 
-  network_interface {
-    name    = "example"
-    primary = true
+  identity {
+    type = "SystemAssigned"
+  }
 
-    ip_configuration {
-      name      = "internal"
-      primary   = true
-      subnet_id = azurerm_subnet.internal.id
+  addon_profile {
+    aci_connector_linux {
+      enabled = false
+    }
+
+    azure_policy {
+      enabled = false
+    }
+
+    http_application_routing {
+      enabled = false
+    }
+
+    kube_dashboard {
+      enabled = true
+    }
+
+    oms_agent {
+      enabled = false
     }
   }
+}
 
-  os_disk {
-    storage_account_type = "Standard_LRS"
-    caching              = "ReadWrite"
-  }
+resource "azurerm_kubernetes_cluster_node_pool" "user" {
+  name                  = "user"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.kubernetes.id
+  vm_size               = "Standard_DS2_v2"
+  node_count            = 1
+  vnet_subnet_id        = azurerm_subnet.internal.id
 }
