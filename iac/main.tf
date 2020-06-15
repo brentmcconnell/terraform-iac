@@ -12,31 +12,6 @@ locals {
 
 data "azurerm_client_config" "current" {}
 
-resource "azurerm_key_vault" "vault" {
-  name                  = replace(local.vault_name, "-", "")
-  sku_name              = "standard"
-  location              = data.azurerm_resource_group.project-rg.location 
-  resource_group_name   = data.azurerm_resource_group.project-rg.name
-  tenant_id             = data.azurerm_client_config.current.tenant_id
-  tags                  = local.tags
-
-
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = data.azurerm_client_config.current.object_id
-
-    key_permissions = [
-      "get","list","create","delete","encrypt","decrypt","unwrapKey","wrapKey"
-    ]
-
-    secret_permissions = [
-      "get","list","set","delete"
-    ]
-
-  }
-
-}
-
 resource "azurerm_virtual_network" "vnet" {
   name                = "${local.prefix}-network"
   location            = data.azurerm_resource_group.project-rg.location 
