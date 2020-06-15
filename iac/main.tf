@@ -2,7 +2,6 @@ locals {
   # All variables used in this file should be 
   # added as locals here 
   prefix                = "${var.prefix}-2141"
-  location              = var.location
   vault_name            = "${local.prefix}-vault"
   
   # Common tags should go here
@@ -15,9 +14,9 @@ data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "vault" {
   name                  = replace(local.vault_name, "-", "")
-  location              = local.location
-  resource_group_name   = data.azurerm_resource_group.project-rg.name
   sku_name              = "standard"
+  location              = data.azurerm_resource_group.project-rg.location 
+  resource_group_name   = data.azurerm_resource_group.project-rg.name
   tenant_id             = data.azurerm_client_config.current.tenant_id
   tags                  = local.tags
 
@@ -41,8 +40,8 @@ resource "azurerm_key_vault" "vault" {
 resource "azurerm_virtual_network" "main" {
   name                = "${local.prefix}-network"
   address_space       = ["10.0.0.0/16"]
-  location            = "${azurerm_resource_group.main.location}"
-  resource_group_name   = data.azurerm_resource_group.project-rg.name
+  location            = data.azurerm_resource_group.project-rg.location
+  resource_group_name = data.azurerm_resource_group.project-rg.name
 }
 
 resource "azurerm_subnet" "internal" {
@@ -55,7 +54,7 @@ resource "azurerm_subnet" "internal" {
 resource "azurerm_linux_virtual_machine_scale_set" "main" {
   name                            = "${local.prefix}-vmss"
   resource_group_name             = data.azurerm_resource_group.project-rg.name
-  location                        = azurerm_resource_group.main.location
+  location                        = data.azurerm_resource_group.project-rg.location
   sku                             = "Standard_F2"
   instances                       = 3
   admin_username                  = "adminuser"

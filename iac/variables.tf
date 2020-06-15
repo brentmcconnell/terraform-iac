@@ -4,12 +4,6 @@ variable "prefix" {
   description               = "A prefix used for all resources"
 }
 
-variable "location" {
-  type                      = string
-  default                   = "eastus"
-  description               = "The Azure Region used"
-}
-
 variable "clientId" {
   type                      = string
   description               = "SP client id"
