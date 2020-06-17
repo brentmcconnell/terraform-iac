@@ -1,3 +1,6 @@
+variables:
+- template: vars.yml  # Template reference
+
 pool:
   vmImage: 'ubuntu-latest'
 
