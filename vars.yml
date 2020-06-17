@@ -1,0 +1,6 @@
+variables:
+  TF_STORAGE_ACCT_NAME: tfstateacct2141
+  TF_STORAGE_CONT_NAME: tfcont-2141 
+  TF_STATE_FILE: terraform.tfstate 
+
+

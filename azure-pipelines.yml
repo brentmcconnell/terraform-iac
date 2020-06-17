@@ -1,36 +1,11 @@
 variables:
-  TF_STORAGE_ACCT_NAME: tfstateacct2141
-  TF_STORAGE_CONT_NAME: tfcont-2141 
-  TF_STATE_FILE: terraform.tfstate 
+- template: vars.yml  # Template reference
+
 pool:
   vmImage: 'ubuntu-latest'
+
 steps:
-
-#KEY VAULT TASK
-- task: AzureKeyVault@1
-  inputs:
-    azureSubscription: 'devops-sp'
-    KeyVaultName: 'mykeyzvault'
-    SecretsFilter: 'sp-client-id-tf-2141,sp-cert-tf-2141,sp-tenant-id-tf-2141,sp-subscription-id-tf-2141,ak-backend-sa-2141'
-  displayName: 'Get key vault secrets as pipeline variables'
-
-# TERRAFORM VERSION
-- script: |
-    terraform version
-  displayName: 'Get Terraform Version'
-
-- script: |
-    echo "$(sp-cert-tf-2141)" > service-principal.pfx.b64
-    base64 --decode service-principal.pfx.b64 > service-principal.pfx
-    openssl pkcs12 -in service-principal.pfx -out service-principal.pem -nodes -passin pass:
-    cat service-principal.pem
-    ls -la
-  displayName: 'What is in the cert variable?'
-
-# AZ LOGIN USING TERRAFORM SERVICE PRINCIPAL
-- script: |
-    az login --service-principal -u "$(sp-client-id-tf-2141)" -p "service-principal.pem" --tenant "$(sp-tenant-id-tf-2141)"
-  displayName: 'Login the az cli'
+- template: azure-login.yml
 
 - script: |
     cd iac
