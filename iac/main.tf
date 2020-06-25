@@ -2,6 +2,7 @@ locals {
   # All variables used in this file should be 
   # added as locals here 
   prefix                = "${var.prefix}-2141"
+  location              = data.azurerm_resource_group.project-rg.location
   vault_name            = "${local.prefix}-vault"
   
   # Common tags should go here
