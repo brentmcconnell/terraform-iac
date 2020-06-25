@@ -17,10 +17,16 @@ stages:
       runOnce:
         deploy:
           steps:
+          - script: |
+              ls -la
           - template: azure-login.yml
+          - script: |
+              ls -la
           - checkout: self
           - script: |
+              ls -la 
               cd iac
+              ls -la
               echo '#######Terraform Init########'
               terraform init \
                   -backend-config="storage_account_name=$(TF_STORAGE_ACCT_NAME)" \
