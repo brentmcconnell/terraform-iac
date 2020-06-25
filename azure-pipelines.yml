@@ -41,7 +41,7 @@ jobs:
           -backend-config="access_key=$(ak-backend-sa-2141)" \
           -backend-config="key=$(TF_STATE_FILE)"
       echo '#######Terraform Destroy########'
-      terraform destroy \
+      terraform destroy -auto-approve \
           -var="clientId=$(sp-client-id-tf-2141)" \
           -var="tenantId=$(sp-tenant-id-tf-2141)" \
           -var="subscriptionId=$(sp-subscription-id-tf-2141)" 
