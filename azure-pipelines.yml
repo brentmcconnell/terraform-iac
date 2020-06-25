@@ -5,7 +5,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-- job: 'plan and apply'
+- job: plan_and_apply
   steps:
   - template: azure-login.yml
 
@@ -27,7 +27,7 @@ jobs:
       terraform apply out.plan
     displayName: 'Terraform Init, Plan and Apply '
 
-- job: 'destroy'
+- job: destroy
   steps:
   - template: azure-login.yml
 
