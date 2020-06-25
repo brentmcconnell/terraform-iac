@@ -45,6 +45,10 @@ stages:
               echo '#######Terraform Apply########'
               terraform apply out.plan
             displayName: 'Terraform Init, Plan and Apply '
+  - job: trythis
+    steps: 
+    - script: |
+        echo "look where we are"
  
 - stage: cleanup 
   dependsOn: deploy
