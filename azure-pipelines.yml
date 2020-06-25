@@ -28,6 +28,7 @@ jobs:
     displayName: 'Terraform Init, Plan and Apply '
 
 - job: destroy
+  dependsOn: plan_and_apply
   steps:
   - template: azure-login.yml
 
