@@ -18,12 +18,15 @@ stages:
         deploy:
           steps:
           - script: |
+              pwd
               ls -la
           - template: azure-login.yml
           - script: |
+              pwd
               ls -la
           - checkout: self
           - script: |
+              pwd
               ls -la 
               cd iac
               ls -la
