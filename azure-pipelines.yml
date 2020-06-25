@@ -18,7 +18,7 @@ stages:
         deploy:
           steps:
           - template: azure-login.yml
-
+          - checkout: self
           - script: |
               cd iac
               echo '#######Terraform Init########'
@@ -50,7 +50,7 @@ stages:
         deploy:
           steps:
           - template: azure-login.yml
-
+          - checkout: self
           - script: |
               cd iac
               echo '#######Terraform Init########'
