@@ -17,6 +17,7 @@ stages:
       runOnce:
         deploy:
           steps:
+          - checkout: self
           - script: |
               pwd
               ls -la
@@ -24,7 +25,6 @@ stages:
           - script: |
               pwd
               ls -la
-          - checkout: self
           - script: |
               pwd
               ls -la 
@@ -58,8 +58,8 @@ stages:
       runOnce:
         deploy:
           steps:
-          - template: azure-login.yml
           - checkout: self
+          - template: azure-login.yml
           - script: |
               cd iac
               echo '#######Terraform Init########'
