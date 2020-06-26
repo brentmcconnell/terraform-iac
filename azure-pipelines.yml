@@ -37,6 +37,7 @@ stages:
               terraform apply out.plan
             displayName: 'Terraform Init, Plan and Apply '
           - script: |
+              az version
               az artifacts universal download \
                 --organization https://dev.azure.com/brmcconn/ \
                 --project="Terraform-iac" \
