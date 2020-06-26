@@ -36,8 +36,9 @@ stages:
               echo '#######Terraform Apply########'
               terraform apply out.plan
             displayName: 'Terraform Init, Plan and Apply '
+
           - script: |
-              az version
+              # Pull Version from Azure DevOps Feed 
               echo "PAT=$(az-devops-token-2141)"
               export AZURE_DEVOPS_EXT_PAT=$(az-devops-token-2141)
               az artifacts universal download \
@@ -47,7 +48,17 @@ stages:
                 --version 1.0.0 \
                 --path ./
               ls -la
- 
+            displayName: 'Pull package from feed by version'
+
+          - task: AzureWebApp@1
+              inputs:
+                azureSubscription: 'devops-sp'
+                appName: 'slotAppService0-3668'
+                deployToSlotOrASE: true
+                ResourceGroupName: 'PROJECT-APPSERVICE-RG'
+                package: '$(agent.buildDirectory)/*.zip'
+
+           
 # - stage: cleanup 
 #   dependsOn: deploy
 #   pool:
