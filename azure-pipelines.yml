@@ -21,14 +21,6 @@ stages:
           - template: azure-login.yml
 
           - script: |
-              GIT_COMMIT=$( git rev-parse --short HEAD )
-              VERSION=$( cat VERSION )
-              echo "##vso[task.setvariable variable=commitHash;isOutput=true]$GIT_COMMIT"
-              echo "##vso[task.setvariable variable=version;isOutput=true]$VERSION"
-            name: buildVars
-            displayName: Set runtime variables for pipeline
-
-          - script: |
               cd iac
               echo '#######Terraform Init########'
               terraform init \
@@ -48,13 +40,13 @@ stages:
 
           - script: |
               # Pull Version from Azure DevOps Feed 
-              echo "PAT=$(az-devops-token-2141)"
-              export AZURE_DEVOPS_EXT_PAT=$(az-devops-token-2141)
+              VERSION=$( cat VERSION )
+              AZURE_DEVOPS_EXT_PAT=$(az-devops-token-2141)
               az artifacts universal download \
                 --organization https://dev.azure.com/brmcconn/ \
                 --feed Hello \
                 --name slots \
-                --version $(buildVars.version) \
+                --version ${VERSION} \
                 --path $(agent.buildDirectory)
               ls -la
             displayName: 'Pull package from feed by version'
