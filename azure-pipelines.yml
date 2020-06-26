@@ -54,7 +54,7 @@ stages:
                 --organization https://dev.azure.com/brmcconn/ \
                 --feed Hello \
                 --name slots \
-                --version ${{ parameters.version }} \
+                --version "*" \
                 --path $(agent.buildDirectory)
               ls -la
             displayName: 'Pull package from feed by version'
