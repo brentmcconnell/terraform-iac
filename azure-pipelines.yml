@@ -40,13 +40,10 @@ stages:
               az version
               echo "PAT=$(az-devops-token-2141)"
               export AZURE_DEVOPS_EXT_PAT=$(az-devops-token-2141)
-              #az devops login
               az artifacts universal download \
                 --organization https://dev.azure.com/brmcconn/ \
-                --project="Terraform-iac" \
-                --scope project \
-                --feed HelloWorld \
-                --name my-first-package \
+                --feed Hello \
+                --name slots \
                 --version 1.0.0 \
                 --path ./
               ls -la
