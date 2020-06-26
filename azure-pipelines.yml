@@ -46,7 +46,7 @@ stages:
                 --feed Hello \
                 --name slots \
                 --version 1.0.0 \
-                --path ./
+                --path $(agent.buildDirectory)
               ls -la
             displayName: 'Pull package from feed by version'
 
