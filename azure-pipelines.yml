@@ -2,7 +2,7 @@ parameters:
 - name: version
   displayName: 'Version to Install'
   type: string
-  default: 1.0.2
+  default: *
 
 trigger: none
 
@@ -54,7 +54,7 @@ stages:
                 --organization https://dev.azure.com/brmcconn/ \
                 --feed Hello \
                 --name slots \
-                --version "*" \
+                --version "${{ parameters.version }}" \
                 --path $(agent.buildDirectory)
               ls -la
             displayName: 'Pull package from feed by version'
