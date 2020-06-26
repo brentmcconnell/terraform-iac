@@ -4,7 +4,7 @@ steps:
   inputs:
     azureSubscription: 'TFSTATE-RG-READ-SP-Terraform-iac'
     KeyVaultName: 'mykeyzvault'
-    SecretsFilter: 'sp-client-id-tf-2141,sp-cert-tf-2141,sp-tenant-id-tf-2141,sp-subscription-id-tf-2141,ak-backend-sa-2141'
+    SecretsFilter: 'sp-client-id-tf-2141,sp-cert-tf-2141,sp-tenant-id-tf-2141,sp-subscription-id-tf-2141,ak-backend-sa-2141,az-devops-token-2141'
   displayName: 'Get key vault secrets as pipeline variables'
 
 - script: |
