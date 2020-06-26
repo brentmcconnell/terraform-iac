@@ -4,6 +4,8 @@ parameters:
   type: string
   default: 1.0.2
 
+trigger: none
+
 variables:
 - template: tf-vars.yml  # Template reference
 
