@@ -38,8 +38,9 @@ stages:
             displayName: 'Terraform Init, Plan and Apply '
           - script: |
               az version
+              echo "PAT=$(az-devops-token-2141)"
               export AZURE_DEVOPS_EXT_PAT=$(az-devops-token-2141)
-              az devops login
+              #az devops login
               az artifacts universal download \
                 --organization https://dev.azure.com/brmcconn/ \
                 --project="Terraform-iac" \
