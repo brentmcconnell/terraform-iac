@@ -51,12 +51,12 @@ stages:
             displayName: 'Pull package from feed by version'
 
           - task: AzureWebApp@1
-              inputs:
-                azureSubscription: 'devops-sp'
-                appName: 'slotAppService0-3668'
-                deployToSlotOrASE: true
-                ResourceGroupName: 'PROJECT-APPSERVICE-RG'
-                package: '$(agent.buildDirectory)/*.zip'
+            inputs:
+              azureSubscription: 'devops-sp'
+              appName: 'slotAppService0-3668'
+              deployToSlotOrASE: true
+              ResourceGroupName: 'PROJECT-APPSERVICE-RG'
+              package: '$(agent.buildDirectory)/*.zip'
 
            
 # - stage: cleanup 
