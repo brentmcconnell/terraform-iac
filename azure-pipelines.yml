@@ -20,6 +20,7 @@ stages:
           - checkout: self
           - template: azure-login.yml
           - script: |
+              cd iac
               echo '#######Terraform Init########'
               terraform init \
                   -backend-config="storage_account_name=$(TF_STORAGE_ACCT_NAME)" \
