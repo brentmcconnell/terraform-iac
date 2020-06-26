@@ -53,7 +53,7 @@ stages:
           - task: AzureWebApp@1
             inputs:
               azureSubscription: 'devops-sp'
-              appName: 'slotAppService0-3668'
+              appName: 'AppService-tf-2141'
               deployToSlotOrASE: true
               ResourceGroupName: 'PROJECT-APPSERVICE-RG'
               package: '$(agent.buildDirectory)/*.zip'
