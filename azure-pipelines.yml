@@ -40,8 +40,8 @@ stages:
 
           - script: |
               # Pull Version from Azure DevOps Feed 
-              VERSION=$( cat VERSION )
-              AZURE_DEVOPS_EXT_PAT=$(az-devops-token-2141)
+              export VERSION=$( cat VERSION )
+              export AZURE_DEVOPS_EXT_PAT=$(az-devops-token-2141)
               az artifacts universal download \
                 --organization https://dev.azure.com/brmcconn/ \
                 --feed Hello \
