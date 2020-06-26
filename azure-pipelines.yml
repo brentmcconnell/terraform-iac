@@ -55,7 +55,7 @@ stages:
               azureSubscription: 'devops-sp'
               appName: 'AppService-tf-2141'
               deployToSlotOrASE: true
-              ResourceGroupName: 'PROJECT-APPSERVICE-RG'
+              ResourceGroupName: 'PROJECT-2141-RG'
               package: '$(agent.buildDirectory)/*.zip'
 
            
