@@ -20,10 +20,6 @@ stages:
           - checkout: self
           - template: azure-login.yml
           - script: |
-              pwd
-              ls -la 
-              cd iac
-              ls -la
               echo '#######Terraform Init########'
               terraform init \
                   -backend-config="storage_account_name=$(TF_STORAGE_ACCT_NAME)" \
@@ -46,8 +42,8 @@ stages:
                 --scope project \
                 --feed HelloWorld \
                 --name my-first-package \
-                --version 1.0.0 
-                --path . 
+                --version 1.0.0 \
+                --path ./
               ls -la
  
 # - stage: cleanup 
