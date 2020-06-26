@@ -19,6 +19,15 @@ stages:
           steps:
           - checkout: self
           - template: azure-login.yml
+
+          - script: |
+              GIT_COMMIT=$( git rev-parse --short HEAD )
+              VERSION=$( cat VERSION )
+              echo "##vso[task.setvariable variable=commitHash;isOutput=true]$GIT_COMMIT"
+              echo "##vso[task.setvariable variable=version;isOutput=true]$VERSION"
+            name: buildVars
+            displayName: Set runtime variables for pipeline
+
           - script: |
               cd iac
               echo '#######Terraform Init########'
@@ -45,7 +54,7 @@ stages:
                 --organization https://dev.azure.com/brmcconn/ \
                 --feed Hello \
                 --name slots \
-                --version 1.0.0 \
+                --version $(buildVars.version) \
                 --path $(agent.buildDirectory)
               ls -la
             displayName: 'Pull package from feed by version'
