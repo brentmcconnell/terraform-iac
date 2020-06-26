@@ -1,3 +1,9 @@
+parameters:
+- name: version
+  displayName: 'Version to Install'
+  type: string
+  default: 1.0.2
+
 variables:
 - template: tf-vars.yml  # Template reference
 
