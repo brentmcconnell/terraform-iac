@@ -47,7 +47,7 @@ stages:
               az artifacts universal download \
                 --organization https://dev.azure.com/brmcconn/ \
                 --feed Hello \
-                --name slots \
+                --name demo \
                 --version "*" \
                 --path $(agent.buildDirectory)
               ls -la
